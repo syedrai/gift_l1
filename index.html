@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Syed's Space</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d0d;
+  font-family: monospace;
+  color: #fff;
+}
+
+.container {
+  width: 500px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 192, 203, 0.2);
+  border-radius: 16px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.2);
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ff8fb1;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.terminal-line {
+  margin: 10px 0;
+  animation: fadeIn 0.4s ease;
+}
+
+input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #ff8fb1;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 0;
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="title">Hi Princesss 💗</div>
+  <div class="subtitle">Syed's personal space terminal</div>
+
+  <div id="terminal"></div>
+  <input type="text" id="input" placeholder="Type your answer..." autofocus />
+</div>
+
+<script>
+let step = 0;
+let attempts = 0;
+
+const answers = [
+  "07032006",
+  "majitha",
+  "syed raihaan",
+  "the last ctf"
+];
+
+const questions = [
+  "Enter your birthday (DDMMYYYY)",
+  "Who is your best friend?",
+  "Who is your mentor?",
+  "First book he wrote for you?",
+  "What name did he call you?"
+];
+
+const hints = [
+  "Format matters 👀",
+  "You literally say this name daily 😏",
+  "Think calm… who guides you?",
+  "It meant something 📖",
+  "He says this a lot 💗"
+];
+
+const terminal = document.getElementById("terminal");
+const input = document.getElementById("input");
+
+function addLine(text) {
+  const line = document.createElement("div");
+  line.className = "terminal-line";
+  line.innerText = text;
+  terminal.appendChild(line);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+// Start
+addLine("Initializing...");
+setTimeout(() => {
+  addLine(questions[step]);
+}, 500);
+
+input.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    let value = input.value.trim().toLowerCase();
+
+    // Special handling for last question (nickname)
+    if (step === 4) {
+      if (value === "princess" || value === "niflaaa") {
+        finish();
+      } else {
+        attempts++;
+        addLine("Hmm… not quite 😌");
+
+        if (attempts >= 3) {
+          addLine(hints[step]);
+        }
+      }
+      input.value = "";
+      return;
+    }
+
+    // Normal flow
+    if (value === answers[step]) {
+      attempts = 0;
+
+      if (step === 0) {
+        addLine("Welcome back, Princesss 💗");
+      }
+
+      step++;
+
+      setTimeout(() => {
+        addLine(questions[step]);
+      }, 400);
+
+    } else {
+      attempts++;
+      addLine("Hmm… not quite 😌");
+
+      if (attempts >= 3) {
+        addLine(hints[step]);
+      }
+    }
+
+    input.value = "";
+  }
+});
+
+function finish() {
+  input.style.display = "none";
+
+  setTimeout(() => addLine("Access Granted..."), 500);
+  setTimeout(() => addLine("Scanning memories..."), 1200);
+  setTimeout(() => addLine("Decrypting something special..."), 2000);
+
+  setTimeout(() => {
+    addLine("Downloading fragment...");
+
+    let link = document.createElement("a");
+    link.href = "sameasu.jpg";
+    link.download = "fragment_01.png";
+    link.click();
+
+    addLine("If it didn’t download… refresh 😌");
+  }, 2800);
+}
+</script>
+
+</body>
+</html>
